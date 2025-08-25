@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background: #222;
+            color: #fff;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        h1, h2 {
+            margin-top: 0;
+        }
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .project {
+            background: #f9f9f9;
+            border-radius: 6px;
+            padding: 1rem;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+        .project h3 {
+            margin-top: 0;
+        }
+        .contact {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gagandeep Singh Sidhu</h1>
+        <p>Web Developer | Designer | Problem Solver | Programer</p>
+    </header>
+    <div class="container">
+        <section>
+            <h2>About Me</h2>
+            <p>
+                🚀 Web Developer & Programmer specializing in responsive, user-friendly websites using HTML, CSS, JavaScript, and modern frameworks like React and Vue.js.
+
+                <br>💻 Experienced in Python, C++, C, and C#, I bring versatility to both front-end and back-end development. Passionate about solving complex problems and creating high-quality solutions.
+
+                <br>🌱 Let’s connect and explore how we can build something impactful together!
+            </p>
+        </section>
+        <section>
+            <h2>Projects</h2>
+            <div class="projects">
+                <div class="project">
+                    <h3>numpy</h3>
+                    <p>My first project of Numpy and Data handling in python.</p>
+                    <a href="https://colab.research.google.com/drive/1L7KK5WcFMDp16tyI1F40aPO35pcOZYIr?usp=sharing">Numpy</a>
+                </div>
+                <div class="project">
+                    <h3>Pandas</h3>
+                    <p>My own pandas project in python.</p>
+                    <a href="https://colab.research.google.com/drive/1wfZtkilydzQq79tJma9Gx7mXNpT56FMg?usp=sharing">Pandas  </a>
+                </div>
+                </div>
+                <div class="project">
+                    <h3>Portfolio Website</h3>
+                    <p>My own portfolio site showcasing my work and skills. Built with HTML, CSS, and JavaScript.</p>
+                    <a href="first-page.html"> MY FIRST SITE</a>
+                </div>
+            </div>
+        </section>
+        <section class="contact">
+            <h2>Contact</h2>
+            <p>Email: gagansidhu141@email.com    |    <a href="https://www.linkedin.com/in/gagandeep-sidhu-519802380/">LinkedIn</a>|    <a href="https://github.com/Gagan0141">Github</a></p>
+        </section>
+    </div>
+</body>
+</html>
