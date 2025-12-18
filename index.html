@@ -3,97 +3,547 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title>
+    <title>Gagandeep Singh Sidhu — AI/ML & Computer Vision Engineer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tweakpane@4.0.5/dist/tweakpane.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        * {
             margin: 0;
-            background: #f4f4f4;
-            color: #333;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        header {
-            background: #222;
-            color: #fff;
-            padding: 2rem 0;
-            text-align: center;
+        
+        body {
+            overflow-x: hidden;
+            color: white;
+            background: linear-gradient(to bottom, #0a0a15, #1a0a20);
+            min-height: 100vh;
+            position: relative;
         }
-        .container {
-            max-width: 900px;
-            margin: 2rem auto;
-            background: #fff;
+        
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
-        h1, h2 {
-            margin-top: 0;
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 21, 0.7);
+            z-index: 100;
         }
-        .projects {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ffaa00, #8888aa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
-        .project {
-            background: #f9f9f9;
-            border-radius: 6px;
-            padding: 1rem;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
         }
-        .project h3 {
-            margin-top: 0;
+        
+        nav a {
+            color: #e0e0ff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-bottom: 0.3rem;
         }
-        .contact {
-            margin-top: 2rem;
+        
+        nav a:hover {
+            color: #ffaa00;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ffaa00;
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
+            padding: 2rem;
+            position: relative;
         }
-        @media (max-width: 600px) {
-            .container {
-                padding: 1rem;
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px rgba(255, 170, 0, 0.5);
+            background: linear-gradient(45deg, #ffaa00, #8888aa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 750px;
+            margin: 1.5rem auto;
+            color: #e0e0ff;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: linear-gradient(45deg, #ffaa00, #ff3300);
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 170, 0, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 170, 0, 0.5);
+        }
+        
+        section {
+            padding: 5rem 0;
+            position: relative;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(45deg, #ffaa00, #8888aa);
+            border-radius: 2px;
+        }
+        
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .project-card {
+            background: rgba(20, 20, 40, 0.7);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 170, 0, 0.3);
+        }
+        
+        .project-img {
+            height: 200px;
+            background: linear-gradient(45deg, #1a0a20, #0a0a15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #ffaa00;
+        }
+        
+        .project-info {
+            padding: 1.5rem;
+        }
+        
+        .project-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            color: #ffaa00;
+        }
+        
+        .project-info p {
+            color: #c0c0e0;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        
+        .project-links {
+            margin-top: 0.8rem;
+            display: flex;
+            gap: 0.8rem;
+        }
+        
+        .project-links a {
+            color: #ffaa00;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+        
+        .about-content {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #ffaa00;
+        }
+        
+        .about-text p {
+            margin-bottom: 1.2rem;
+            line-height: 1.7;
+            color: #e0e0ff;
+        }
+        
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .skill-tag {
+            background: rgba(255, 170, 0, 0.15);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #ffcc88;
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(20, 20, 40, 0.7);
+            padding: 2.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #e0e0ff;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: rgba(10, 10, 21, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #a0a0c0;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 2rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            color: #e0e0ff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .social-icon:hover {
+            background: #ffaa00;
+            color: #0a0a15;
+            transform: translateY(-5px);
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+            .hero p {
+                font-size: 1.1rem;
+            }
+            .about-content {
+                flex-direction: column;
+            }
+            nav ul {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Gagandeep Singh Sidhu</h1>
-        <p>Web Developer | Designer | Problem Solver | Programer</p>
-    </header>
-    <div class="container">
-        <section>
-            <h2>About Me</h2>
-            <p>
-                🚀 Web Developer & Programmer specializing in responsive, user-friendly websites using HTML, CSS, JavaScript, and modern frameworks like React and Vue.js.
-
-                <br>💻 Experienced in Python, C++, C, and C#, I bring versatility to both front-end and back-end development. Passionate about solving complex problems and creating high-quality solutions.
-
-                <br>🌱 Let’s connect and explore how we can build something impactful together!
-            </p>
+    <div id="canvas-container"></div>
+    
+    <div class="content-wrapper">
+        <header>
+            <div class="logo">GaganDev</div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <section id="home" class="hero">
+            <h1>Gagandeep Singh Sidhu</h1>
+            <p>AI/ML & Computer Vision Engineer building intelligent, real-world systems with scalable code and data-driven insights.</p>
+            <a href="#projects" class="btn">Explore Projects</a>
         </section>
-        <section>
-            <h2>Projects</h2>
-            <div class="projects">
-                <div class="project">
-                    <h3>numpy</h3>
-                    <p>My first project of Numpy and Data handling in python.</p>
-                    <a href="https://colab.research.google.com/drive/1L7KK5WcFMDp16tyI1F40aPO35pcOZYIr?usp=sharing">Numpy</a>
+        
+        <section id="projects">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="portfolio-grid">
+                <div class="project-card">
+                    <div class="project-img">🖐️</div>
+                    <div class="project-info">
+                        <h3>Real-Time Hand Gesture Recognition</h3>
+                        <p>CNN + MediaPipe pipeline for HCI with temporal smoothing and low-latency inference.</p>
+                        <div class="project-links">
+                            <a href="https://github.com/Gagan0141" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="project">
-                    <h3>Pandas</h3>
-                    <p>My own pandas project in python.</p>
-                    <a href="https://colab.research.google.com/drive/1wfZtkilydzQq79tJma9Gx7mXNpT56FMg?usp=sharing">Pandas  </a>
+                <div class="project-card">
+                    <div class="project-img">👁️</div>
+                    <div class="project-info">
+                        <h3>Eye Gaze Tracking System</h3>
+                        <p>GPU-optimized computer vision system for real-time eye gaze estimation.</p>
+                        <div class="project-links">
+                            <a href="https://github.com/Gagan0141" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                        </div>
+                    </div>
                 </div>
+                <div class="project-card">
+                    <div class="project-img">💬</div>
+                    <div class="project-info">
+                        <h3>Tweet Sentiment Analysis</h3>
+                        <p>NLP pipeline using TF-IDF and ML classifiers for social media sentiment classification.</p>
+                        <div class="project-links">
+                            <a href="https://github.com/Gagan0141" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="project">
-                    <h3>Portfolio Website</h3>
-                    <p>My own portfolio site showcasing my work and skills. Built with HTML, CSS, and JavaScript.</p>
-                    <a href="first-page.html"> MY FIRST SITE</a>
+                <div class="project-card">
+                    <div class="project-img">🕷️</div>
+                    <div class="project-info">
+                        <h3>Advanced Web Scraper</h3>
+                        <p>Scalable scraper with support for dynamic content & user interaction.</p>
+                        <div class="project-links">
+                            <a href="https://github.com/Gagan0141" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                            <a href="https://huggingface.co/spaces/Gagan0141/webscraping1" target="_blank"><i class="fas fa-rocket"></i> HF Space</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-img">🌐</div>
+                    <div class="project-info">
+                        <h3>3D Interactive Web Experience</h3>
+                        <p>Interactive 3D environments using Three.js and custom GLSL shaders.</p>
+                        <div class="project-links">
+                            <a href="https://github.com/Gagan0141" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-img">🤖</div>
+                    <div class="project-info">
+                        <h3>ML Model Demo (Hugging Face)</h3>
+                        <p>Interactive inference UI for machine learning models deployed on Hugging Face Spaces.</p>
+                        <div class="project-links">
+                            <a href="https://huggingface.co/spaces/Gagan0141/model-space" target="_blank"><i class="fas fa-rocket"></i> HF Space</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
-        <section class="contact">
-            <h2>Contact</h2>
-            <p>Email: gagansidhu141@email.com    |    <a href="https://www.linkedin.com/in/gagandeep-sidhu-519802380/">LinkedIn</a>|    <a href="https://github.com/Gagan0141">Github</a></p>
+        
+        <section id="about">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>AI/ML Engineer | Computer Vision Specialist</h3>
+                    <p>Postgraduate in Computer Science with a strong focus on **Artificial Intelligence, Machine Learning, Computer Vision, and NLP**. I build end-to-end intelligent systems—from data preprocessing to model deployment—emphasizing clarity, reproducibility, and real-world applicability.</p>
+                    <p>My work spans **real-time inference systems, GPU-optimized pipelines, and interactive ML demos** on Hugging Face Spaces. I write production-quality, modular Python code and believe in engineering robust data-centric solutions.</p>
+                    
+                    <div class="skills">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">TensorFlow / PyTorch</span>
+                        <span class="skill-tag">OpenCV / MediaPipe</span>
+                        <span class="skill-tag">Scikit-learn</span>
+                        <span class="skill-tag">NLP (TF-IDF, Transformers)</span>
+                        <span class="skill-tag">Three.js / WebGL</span>
+                        <span class="skill-tag">Git / Linux</span>
+                        <span class="skill-tag">SQL / Pandas / NumPy</span>
+                    </div>
+                </div>
+            </div>
         </section>
+        
+        <section id="contact">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" placeholder="Your name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Your email">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" placeholder="Let's discuss AI, computer vision, or collaboration opportunities!"></textarea>
+                </div>
+                <button class="btn">Send Message</button>
+            </div>
+        </section>
+        
+        <footer>
+            <div class="social-links">
+                <a href="https://github.com/Gagan0141" class="social-icon" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://huggingface.co/Gagan0141" class="social-icon" target="_blank">HF</a>
+                <a href="mailto:gagansidhu141@gmail.com" class="social-icon" target="_blank"><i class="fas fa-envelope"></i></a>
+                <a href="tel:+919464504781" class="social-icon"><i class="fas fa-phone"></i></a>
+            </div>
+            <p>© 2025 Gagandeep Singh Sidhu. All rights reserved.</p>
+            <p>AI/ML Engineer • Bathinda, Punjab, India</p>
+        </footer>
     </div>
+
+    <script>
+        // Simple Three.js ocean placeholder (replace with real ocean shader later)
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+        
+        const geometry = new THREE.PlaneGeometry(20, 20);
+        const material = new THREE.MeshBasicMaterial({ 
+            color: 0x0044aa,
+            transparent: true,
+            opacity: 0.2,
+            side: THREE.DoubleSide
+        });
+        const ocean = new THREE.Mesh(geometry, material);
+        ocean.rotation.x = -Math.PI / 2;
+        ocean.position.y = -5;
+        scene.add(ocean);
+        
+        camera.position.set(0, 0, 10);
+        
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            ocean.rotation.z += 0.001;
+            renderer.render(scene, camera);
+        }
+        animate();
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 </body>
 </html>
